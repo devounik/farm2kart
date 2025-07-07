@@ -72,8 +72,36 @@ const getProductsByVendorId = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+const searchProducts = async (req, res) => {
+  try {
+    const { query, category } = req.query;
+
+    const filter = {};
+    let projection = null;
+    let sort = {};
+
+    // 🔍 Full-text search
+    if (query) {
+      filter.$text = { $search: query };
+      projection = { score: { $meta: "textScore" } };
+      sort = { score: { $meta: "textScore" } };
+    }
+
+    //  Category filter (case-insensitive)
+    if (category) {
+      filter.category = { $regex: new RegExp(category, "i") };
+    }
+
+    const products = await Product.find(filter, projection).sort(sort);
+    res.status(200).json(products);
+  } catch (err) {
+    console.error("Search error:", err.message);
+    res.status(500).json({ error: "Search failed" });
+  }
+};
 
 module.exports = {
+  searchProducts,
   getProductsByVendorId,
   createProduct,
   getAllProducts,
