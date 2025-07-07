@@ -4,6 +4,8 @@ const connectDB = require("./config/db");
 const productRoutes = require("./routes/productRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const wishlistRoutes = require("./routes/wishlistRoutes");
+const vendorRoutes = require("./routes/vendorRoutes");
+const bankRoutes = require("./routes/bankRoutes");
 
 // Load env variables
 dotenv.config();
@@ -23,6 +25,8 @@ app.get("/", (req, res) => {
 app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/vendors", vendorRoutes);
+app.use("/api/bank-details", bankRoutes);
 
 app.listen(PORT, () =>
   console.log(`Server running on http://localhost:${PORT}`)
