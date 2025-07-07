@@ -1,14 +1,29 @@
-// server/server.js
-
 const express = require("express");
-const app = express();
+const dotenv = require("dotenv");
+const connectDB = require("./config/db");
+const productRoutes = require("./routes/productRoutes");
+const cartRoutes = require("./routes/cartRoutes");
+const wishlistRoutes = require("./routes/wishlistRoutes");
 
-const PORT = 5000;
+// Load env variables
+dotenv.config();
+
+// Connect to MongoDB
+connectDB();
+
+const app = express();
+app.use(express.json());
+
+const PORT = process.env.PORT;
 
 app.get("/", (req, res) => {
-  res.send("Hello World from Backend 🚀");
+  res.send("SERVER IS RUNNING AND DB CONNECTED");
 });
 
-app.listen(PORT, () => {
-  console.log(`✅ Server is running at http://localhost:${PORT}`);
-});
+app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/cart", cartRoutes);
+
+app.listen(PORT, () =>
+  console.log(`Server running on http://localhost:${PORT}`)
+);
