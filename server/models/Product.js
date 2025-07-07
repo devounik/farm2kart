@@ -23,4 +23,11 @@ const PRODUCT = new Schema(
   { timestamps: true }
 );
 
+PRODUCT.index({
+  name: "text",
+  description: "text",
+  category: "text",
+  tags: "text",
+});
+
 module.exports = mongoose.model("Product", PRODUCT);
