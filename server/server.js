@@ -5,16 +5,14 @@ const connectDB = require("./config/db");
 
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+
 const productRoutes = require("./routes/productRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const wishlistRoutes = require("./routes/wishlistRoutes");
 const vendorRoutes = require("./routes/vendorRoutes");
 const bankRoutes = require("./routes/bankRoutes");
 
-// Load env variables
 dotenv.config();
-
-// Connect to MongoDB
 connectDB();
 
 const app = express();
@@ -31,10 +29,6 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/vendors", vendorRoutes);
 app.use("/api/bank-details", bankRoutes);
 
-app.get("/", (req, res) => {
-  res.send("SERVER IS RUNNING AND DB CONNECTED");
-});
-
 app.listen(PORT, () =>
-  console.log(`Server is running at http://localhost:${PORT}`)
+  console.log(`Server running on http://localhost:${PORT}`)
 );
